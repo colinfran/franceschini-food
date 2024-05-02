@@ -38,8 +38,7 @@ const MenuButton: FC<Props> = ({ recipe }) => {
     if (recipe) {
       setCurrentRecipe(recipe)
     }
-    router.refresh()
-  }, [recipe, router, setCurrentRecipe])
+  }, [recipe, setCurrentRecipe])
 
   const deleteRecipe = async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
     setLoading(true)

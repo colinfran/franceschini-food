@@ -48,9 +48,9 @@ const Page: React.FC<Props> = async ({ params }) => {
         <div className="w-full">
           <Image
             alt={title}
-            className="rounded-lg border border-gray-200 dark:border-gray-800"
+            className="h-auto w-full rounded-lg border border-gray-200 dark:border-gray-800"
             height={300}
-            layout="responsive"
+            sizes="100vw"
             src={image}
             width={500}
           />
