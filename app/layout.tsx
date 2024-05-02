@@ -30,7 +30,18 @@ export const metadata: Metadata = {
   ],
   description: "Franceschini Recipe Book",
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      {
+        media: "(prefers-color-scheme: light)",
+        url: "/icons/favicon-black.ico",
+        href: "/icons/favicon-black.ico",
+      },
+      {
+        media: "(prefers-color-scheme: dark)",
+        url: "/icons/favicon-white.ico",
+        href: "/icons/favicon-white.ico",
+      },
+    ],
     shortcut: "/icons/favicon-16x16.png",
     apple: "/icons/apple-icon-precomposed.png",
   },
