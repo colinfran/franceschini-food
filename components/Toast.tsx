@@ -26,6 +26,7 @@ const Toast: FC = () => {
       router.refresh()
       params.delete("loggedIn")
       router.replace(pathname)
+      router.refresh()
     }
     if (loggedOut) {
       toast({
@@ -33,9 +34,9 @@ const Toast: FC = () => {
         description: "You were successfully logged out.",
         duration: 3000,
       })
-      router.refresh()
       params.delete("loggedOut")
       router.replace(pathname)
+      router.refresh()
     }
     if (addedRecipe) {
       toast({
@@ -43,9 +44,9 @@ const Toast: FC = () => {
         description: "You have successfully added a recipe to the database.",
         duration: 3000,
       })
-      router.refresh()
       params.delete("added")
       router.replace(pathname)
+      router.refresh()
     }
     if (deletedRecipe) {
       toast({
@@ -53,9 +54,9 @@ const Toast: FC = () => {
         description: "You have successfully deleted a recipe from the database.",
         duration: 3000,
       })
-      router.refresh()
       params.delete("deleted")
       router.replace(pathname)
+      router.refresh()
     }
     if (editedRecipe) {
       toast({
@@ -63,9 +64,9 @@ const Toast: FC = () => {
         description: "You have successfully edited a recipe from the database.",
         duration: 3000,
       })
-      router.refresh()
       params.delete("edited")
       router.replace(pathname)
+      router.refresh()
     }
   }, [pathname, query, router, toast])
 

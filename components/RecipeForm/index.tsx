@@ -38,7 +38,7 @@ const RecipeForm: FC<Props> = ({
     }
   }, [currentRecipe, pageTitle, router])
 
-  const [imagePreview, setImagePreview] = useState<string | undefined | null>(
+  const [imagePreview, setImagePreview] = useState<string | undefined>(
     currentRecipe?.image || undefined,
   )
 
@@ -50,6 +50,9 @@ const RecipeForm: FC<Props> = ({
     if (imagePreview) {
       object.image = imagePreview
     }
+    // remove empty inputs
+    object.ingredients = object.ingredients.filter((item) => item !== "")
+    object.instructions = object.instructions.filter((item) => item !== "")
     try {
       const response = await fetch(fetchUrl, {
         method: "POST",
@@ -82,7 +85,13 @@ const RecipeForm: FC<Props> = ({
 
   return (
     <Suspense>
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <div
+        className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8"
+        onDrop={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
+      >
         <div className="space-y-6">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
@@ -106,13 +115,12 @@ const RecipeForm: FC<Props> = ({
                 disabled={
                   loading ||
                   !(
-                    recipeData.title.length > 1 ||
-                    recipeData.description.length > 1 ||
-                    recipeData.servings > 0 ||
-                    recipeData.cookingTime > 0 ||
-                    recipeData.ingredients[0] !== "" ||
-                    recipeData.instructions[0] !== "" ||
-                    recipeData.categories.length > 0
+                    recipeData.title.length > 1 &&
+                    recipeData.description.length > 1 &&
+                    recipeData.servings > 0 &&
+                    recipeData.cookingTime > 0 &&
+                    recipeData.ingredients[0] !== "" &&
+                    recipeData.instructions[0] !== ""
                   )
                 }
                 variant="secondary"

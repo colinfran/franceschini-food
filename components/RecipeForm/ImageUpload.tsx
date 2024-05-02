@@ -1,85 +1,132 @@
-import React, { FC, useState } from "react"
+import React, { FC, useRef, useState } from "react"
 import { Button } from "../ui/button"
 import Image from "next/image"
 import { LoadingSpinner } from "../LoadingSpinner"
 
 type Props = {
-  setImagePreview: (val: string | null | undefined) => void
+  setImagePreview: (val: string | undefined) => void
   imagePreview: string | null | undefined
 }
 
 const ImageUpload: FC<Props> = ({ imagePreview, setImagePreview }) => {
   const [imageLoading, setImageLoading] = useState<boolean>(false)
+  const [isDragging, setIsDragging] = useState<boolean>(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const uploadImage = async (file: File): Promise<void> => {
+    const formData = new FormData()
+    formData.append("image", file)
+    try {
+      const response = await fetch("/api/recipes/upload-image", {
+        method: "POST",
+        body: formData,
+      })
+      if (!response.ok) {
+        throw new Error("Image upload failed")
+      }
+      const { url } = await response.json()
+      setImagePreview(url)
+    } catch (error) {
+      console.error("Error uploading image:", error)
+    } finally {
+      setImageLoading(false)
+      setTimeout(() => {
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: "smooth",
+        })
+      }, 300)
+    }
+  }
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     setImageLoading(true)
     const file = e.target.files?.[0]
     if (file) {
-      const formData = new FormData()
-      formData.append("image", file)
-      try {
-        const response = await fetch("/api/recipes/upload-image", {
-          method: "POST",
-          body: formData,
-        })
-        if (!response.ok) {
-          throw new Error("Image upload failed")
-        }
-        const { url } = await response.json()
-        setImagePreview(url)
-      } catch (error) {
-        console.error("Error uploading image:", error)
-      } finally {
-        setImageLoading(false)
-        setTimeout(() => {
-          window.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: "smooth",
-          })
-        }, 300)
-      }
+      await uploadImage(file)
+    }
+  }
+
+  const handleDrop = async (e: React.DragEvent<HTMLButtonElement>): Promise<void> => {
+    e.preventDefault()
+    e.stopPropagation()
+    const file = e.dataTransfer.files?.[0]
+    if (file) {
+      setImageLoading(true)
+      await uploadImage(file)
+    }
+    setIsDragging(false)
+  }
+
+  const handleDragOver = (e: React.DragEvent<HTMLButtonElement>): void => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(true)
+  }
+
+  const handleDragLeave = (e: React.DragEvent<HTMLButtonElement>): void => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(false)
+  }
+
+  const handleClickUpload = (): void => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click()
     }
   }
 
   return (
     <div className="">
-      <label
-        className="mt-1 flex cursor-pointer justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pb-6 pt-5 dark:border-gray-600"
-        htmlFor="image"
-      >
-        {imageLoading && !imagePreview && <LoadingSpinner className="size-20" />}
-        {!imageLoading && imagePreview && (
-          <div className="relative w-full">
-            <Button
-              className="absolute right-2 top-2"
-              variant="outline"
-              onClick={() => setImagePreview(undefined)}
+      {imageLoading && !imagePreview && (
+        <div className="mt-1 flex h-[146px] w-full items-center	justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pb-6 pt-5 dark:border-gray-600">
+          <LoadingSpinner className="size-20" />
+        </div>
+      )}
+      {!imageLoading && imagePreview && (
+        <div className="relative w-full">
+          <Button
+            className="absolute right-2 top-2"
+            variant="outline"
+            onClick={() => setImagePreview(undefined)}
+          >
+            <svg
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <line x1="18" x2="6" y1="6" y2="18"></line>
-                <line x1="6" x2="18" y1="6" y2="18"></line>
-              </svg>
-            </Button>
-            <Image
-              alt="Preview"
-              className="mx-auto object-cover"
-              height={500}
-              src={imagePreview as string}
-              width={500}
-            />
-          </div>
-        )}
-        {!imageLoading && !imagePreview && (
+              <line x1="18" x2="6" y1="6" y2="18"></line>
+              <line x1="6" x2="18" y1="6" y2="18"></line>
+            </svg>
+          </Button>
+          <Image
+            alt="Preview"
+            className="mx-auto object-cover"
+            height={500}
+            src={imagePreview as string}
+            width={500}
+          />
+        </div>
+      )}
+      {!imageLoading && !imagePreview && (
+        <button
+          className={`mt-1 flex h-[146px] w-full cursor-pointer justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pb-6 pt-5 dark:border-gray-600 ${isDragging ? "border-blue-500 shadow-lg dark:border-blue-500" : ""}`}
+          tabIndex={0}
+          onClick={handleClickUpload}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleClickUpload()
+            }
+          }}
+        >
           <div className="space-y-1 text-center">
             <svg
               aria-hidden="true"
@@ -101,6 +148,7 @@ const ImageUpload: FC<Props> = ({ imagePreview, setImagePreview }) => {
                 className="sr-only"
                 id="image"
                 name="image"
+                ref={fileInputRef}
                 type="file"
                 onChange={handleImageChange}
               />
@@ -108,8 +156,8 @@ const ImageUpload: FC<Props> = ({ imagePreview, setImagePreview }) => {
             </div>
             <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, GIF up to 10MB</p>
           </div>
-        )}
-      </label>
+        </button>
+      )}
     </div>
   )
 }

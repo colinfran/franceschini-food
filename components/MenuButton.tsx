@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/alert-dialog"
 import { LoadingSpinner } from "./LoadingSpinner"
 import Link from "next/link"
-import { useTheme } from "next-themes"
 import { useRouter } from "next/navigation"
 import { Recipe } from "@/types"
 import { useRecipe } from "../providers/recipe-provider"
@@ -32,9 +31,7 @@ const MenuButton: FC<Props> = ({ recipe }) => {
   const router = useRouter()
   const [areYouSureView, setAreYouSureView] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [theme, setTheme] = useState<string | undefined>(undefined)
   const [dialogOpen, setDialogOpen] = useState(false)
-  const { resolvedTheme } = useTheme()
   const { setCurrentRecipe } = useRecipe()
 
   useEffect(() => {
@@ -69,10 +66,6 @@ const MenuButton: FC<Props> = ({ recipe }) => {
     setLoading(false)
   }
 
-  useEffect(() => {
-    if (resolvedTheme) setTheme(resolvedTheme)
-  }, [resolvedTheme])
-
   return (
     <Suspense>
       <div>
@@ -81,7 +74,7 @@ const MenuButton: FC<Props> = ({ recipe }) => {
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
                 <svg
-                  fill={theme === "dark" ? "#fff" : "#000"}
+                  className="fill-black dark:fill-white"
                   height={16}
                   viewBox="0 0 16 16"
                   width={16}

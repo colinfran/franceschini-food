@@ -97,9 +97,13 @@ export const defaultRecipe = {
   image: "",
 }
 
+/**
+ * Converts URLs within a text into clickable links.
+ * @param {string} text - The input text containing URLs.
+ * @returns {string} - The text with URLs converted into clickable links.
+ */
 export const urlify = (text: string): string => {
   const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g
-  //var urlRegex = /(https?:\/\/[^\s]+)/g;
   return text.replace(urlRegex, (url, b, c) => {
     const url2 = c == "www." ? "http://" + url : url
     return `<a style='color: rgb(161 161 170); text-decoration:underline;' href='${url2}' target='_blank'>${url}</a>`
