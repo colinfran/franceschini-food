@@ -115,7 +115,7 @@ const ImageUpload: FC<Props> = ({ imagePreview, setImagePreview }) => {
       )}
       {!imageLoading && !imagePreview && (
         <button
-          className={`mt-1 flex h-[146px] w-full cursor-pointer justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pb-6 pt-5 dark:border-gray-600 ${isDragging ? "border-blue-500 shadow-lg dark:border-blue-500" : ""}`}
+          className={`mt-1 flex h-[146px] w-full cursor-pointer justify-center rounded-md border-2 border-dashed px-6 pb-6 pt-5 ${isDragging ? "border-blue-500 shadow-lg dark:border-blue-500 dark:shadow-white-lg" : "border-gray-300 dark:border-gray-600"}`}
           tabIndex={0}
           onClick={handleClickUpload}
           onDragLeave={handleDragLeave}
