@@ -20,7 +20,9 @@ const MultipleSelectorDemo: FC = () => {
         .map((item) => ({ value: item, label: item }))
       setValue(listOfFilters)
     }
-  }, [searchParams])
+    // we only want this to run once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onChange = useDebouncedCallback((newOptions: Option[]) => {
     setValue(newOptions)

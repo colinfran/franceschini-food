@@ -35,7 +35,7 @@ const Page: React.FC = async ({
 
   return (
     <div className="mb-20 mt-4 flex flex-col justify-center p-4">
-      <div className="mx-auto mb-6 flex w-full max-w-screen-lg flex-col gap-2">
+      <div className="mx-auto mb-6 flex w-full max-w-screen-lg flex-col gap-2 md:flex-row">
         <Searchbar />
         <Filterbar />
       </div>

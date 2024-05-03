@@ -17,7 +17,9 @@ const Searchbar: FC = () => {
       const val = decodeURIComponent(search)
       ref.current.value = val
     }
-  }, [searchParams])
+    // we only want this to run once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onChange = useDebouncedCallback((e) => {
     const val = e.target.value
@@ -31,7 +33,7 @@ const Searchbar: FC = () => {
   }, 300)
 
   return (
-    <div>
+    <div className="w-full">
       <div className="relative">
         <Input placeholder="Search for recipes..." ref={ref} type="email" onChange={onChange} />
         <div className="pointer-events-none absolute right-2 top-1/2 z-10 -translate-y-1/2">
