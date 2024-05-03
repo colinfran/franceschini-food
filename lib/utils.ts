@@ -34,6 +34,7 @@ export const listOfCategories = [
   "Baked",
   "Barbecue",
   "Beverage",
+  "Bread",
   "Breakfast",
   "British",
   "Burger",

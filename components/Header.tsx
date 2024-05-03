@@ -17,8 +17,8 @@ const Header: React.FC = async () => {
           <Image
             alt="Logo"
             className="header-logo"
-            height={48}
-            src="/icons/logo.png"
+            height={38}
+            src="/icons/favicon-white.ico"
             width={38}
             priority
           />
