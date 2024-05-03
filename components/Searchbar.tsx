@@ -1,5 +1,5 @@
 "use client"
-import React, { FC } from "react"
+import React, { FC, useEffect, useRef } from "react"
 import { Input } from "./ui/input"
 import { usePathname, useSearchParams, useRouter } from "next/navigation"
 import { useDebouncedCallback } from "use-debounce"
@@ -9,11 +9,21 @@ const Searchbar: FC = () => {
   const pathname = usePathname()
   const router = useRouter()
 
+  const ref = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const search = searchParams.get("search") || ""
+    if (search && ref.current) {
+      const val = decodeURIComponent(search)
+      ref.current.value = val
+    }
+  }, [searchParams])
+
   const onChange = useDebouncedCallback((e) => {
-    const value = e.target.value
+    const val = e.target.value
     const params = new URLSearchParams(searchParams)
-    if (value) {
-      params.set("search", value)
+    if (val) {
+      params.set("search", val)
     } else {
       params.delete("search")
     }
@@ -23,7 +33,7 @@ const Searchbar: FC = () => {
   return (
     <div>
       <div className="relative">
-        <Input placeholder="Search" type="email" onChange={onChange} />
+        <Input placeholder="Search for recipes..." ref={ref} type="email" onChange={onChange} />
         <div className="pointer-events-none absolute right-2 top-1/2 z-10 -translate-y-1/2">
           <svg
             className="size-6"

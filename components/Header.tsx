@@ -13,7 +13,7 @@ const Header: React.FC = async () => {
   return (
     <header className="container">
       <div className="flex items-center justify-between border-b py-4">
-        <Link href="/">
+        <a href="/">
           <Image
             alt="Logo"
             className="header-logo"
@@ -22,7 +22,7 @@ const Header: React.FC = async () => {
             width={38}
             priority
           />
-        </Link>
+        </a>
         {authCookie ? (
           <>
             {showAddButton && (
