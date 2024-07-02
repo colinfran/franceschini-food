@@ -30,13 +30,13 @@ const Page: React.FC<Props> = async ({ params }) => {
   return (
     <section className="w-full py-12" style={{ overflowWrap: "anywhere" }}>
       <div className="container relative mx-auto grid gap-8 px-4 md:px-6">
-        {authCookie && (
-          <div className="absolute right-2 top-2 z-50">
-            <MenuButton recipe={JSON.parse(JSON.stringify(recipe))} />
-          </div>
-        )}
         <div className="grid gap-2">
-          <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
+          <div className="flex flex-row justify-between">
+            <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
+            {authCookie && (
+              <MenuButton recipe={JSON.parse(JSON.stringify(recipe))} />
+            )}
+          </div>
           <h2
             className="text-lg tracking-tight"
             dangerouslySetInnerHTML={{ __html: urlify(description) }}

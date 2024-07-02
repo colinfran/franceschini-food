@@ -58,11 +58,9 @@ const Page: React.FC = async ({
                     priority
                   />
                   <div className="h-48 overflow-hidden p-6">
-                    <CardTitle>{title}</CardTitle>
-                    <CardDescription className="mt-1">
-                      {description.length > 100
-                        ? description.substring(0, 100) + "..."
-                        : description}
+                    <CardTitle className="line-clamp-2 h-[50px]">{title}</CardTitle>
+                    <CardDescription className="mt-1 line-clamp-3">
+                      {description}
                     </CardDescription>
                   </div>
                 </CardContent>
