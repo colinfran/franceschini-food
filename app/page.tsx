@@ -59,9 +59,7 @@ const Page: React.FC = async ({
                   />
                   <div className="h-48 overflow-hidden p-6">
                     <CardTitle className="line-clamp-2 h-[50px]">{title}</CardTitle>
-                    <CardDescription className="mt-1 line-clamp-3">
-                      {description}
-                    </CardDescription>
+                    <CardDescription className="mt-1 line-clamp-3">{description}</CardDescription>
                   </div>
                 </CardContent>
               </Card>

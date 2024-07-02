@@ -33,9 +33,7 @@ const Page: React.FC<Props> = async ({ params }) => {
         <div className="grid gap-2">
           <div className="flex flex-row justify-between">
             <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
-            {authCookie && (
-              <MenuButton recipe={JSON.parse(JSON.stringify(recipe))} />
-            )}
+            {authCookie && <MenuButton recipe={JSON.parse(JSON.stringify(recipe))} />}
           </div>
           <h2
             className="text-lg tracking-tight"

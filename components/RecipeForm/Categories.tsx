@@ -31,7 +31,7 @@ const Categories: FC<Props> = ({ recipeData, setRecipeData }) => {
         <div className="scrollbar-custom flex flex-row gap-1 overflow-x-auto pb-4">
           {listOfCategories.map((cat, index) => (
             <Badge
-              className="text-center text-[12px]"
+              className="text-center text-xxs"
               key={index}
               style={{
                 backgroundColor: recipeData.categories.includes(cat) ? "gray" : "white",
