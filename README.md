@@ -35,7 +35,7 @@ To run the app locally, follow these steps:
 
 4. Set up environment variables:
 
-   - Create a `.env` file.
+   - Create the `.env` file by copying the example file: `cp .env.example .env`
    - Add env variables from your mongodb uri, your key to login, jwt secret, and your imgbb api key.
 
 5. Start the development server:
