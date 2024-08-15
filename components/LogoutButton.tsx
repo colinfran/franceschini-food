@@ -5,7 +5,7 @@ import { Button } from "./ui/button"
 
 const LogoutButton: FC = () => {
   const { setCurrentToast } = useToaster()
-  return <Button onClick={() => setCurrentToast("loggedOut")}>Logout</Button>
+  return <Button onClick={() => setTimeout(() => setCurrentToast("loggedOut"), 1000)}>Logout</Button>
 }
 
 export default LogoutButton
