@@ -8,7 +8,8 @@ import MenuButton from "@/components/MenuButton"
 import { urlify } from "@/lib/utils"
 import Image from "next/image"
 import { redirect } from "next/navigation"
-type Props = { params: { id: never } }
+
+type Props = { params: { id: string } }
 
 const Page: React.FC<Props> = async ({ params }) => {
   const { recipe } = await getRecipe(params.id)

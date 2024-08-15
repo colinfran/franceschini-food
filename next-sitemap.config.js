@@ -5,7 +5,6 @@ module.exports = {
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   robotsTxtOptions: {
-    additionalSitemaps: ["https://francschini.food/api/server-sitemap.xml"],
     policies: [
       {
         userAgent: "*",

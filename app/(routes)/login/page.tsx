@@ -13,12 +13,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { useRouter } from "next/navigation"
+import { useToaster } from "@/providers/toast-provider"
 
 const Page: FC = () => {
   const router = useRouter()
   const [key, setKey] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("<no-error>")
+  const { setCurrentToast } = useToaster()
 
   const handleSubmit = async (): Promise<void> => {
     setLoading(true)
@@ -33,10 +35,12 @@ const Page: FC = () => {
         setLoading(false)
         setError("Invalid Key")
       } else {
-        router.push("/?loggedIn=true")
+        router.push("/")
+        setTimeout(() => {
+          setCurrentToast("loggedIn")
+        }, 500)
         setLoading(false)
       }
-      // Login successful, redirect to dashboard or whatever
     } catch (e) {
       console.error(e)
     }

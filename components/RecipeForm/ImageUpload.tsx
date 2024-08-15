@@ -30,12 +30,6 @@ const ImageUpload: FC<Props> = ({ imagePreview, setImagePreview }) => {
       console.error("Error uploading image:", error)
     } finally {
       setImageLoading(false)
-      setTimeout(() => {
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: "smooth",
-        })
-      }, 300)
     }
   }
 

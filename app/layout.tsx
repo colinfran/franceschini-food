@@ -6,6 +6,7 @@ import { Metadata } from "next"
 import Toast from "@/components/Toast"
 import { Footer } from "@/components/Footer"
 import { RecipeProvider } from "@/providers/recipe-provider"
+import { ToastProvider } from "@/providers/toast-provider"
 import NextTopLoader from "nextjs-toploader"
 import { Analytics } from "@vercel/analytics/react"
 
@@ -54,24 +55,26 @@ type RootLayoutProps = {
 const RootLayout: React.FC<RootLayoutProps> = async ({ children }) => {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="relative flex min-h-screen flex-col gap-4">
-        <NextTopLoader color="#36568a" showSpinner={false} />
+      <body className="relative flex min-h-screen flex-col">
+        <NextTopLoader color="#36568a" showSpinner={false} zIndex={100} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           disableTransitionOnChange
           enableSystem
         >
-          <main>
-            <Header />
-            <RecipeProvider>
-              <div className="flex-1">{children}</div>
-            </RecipeProvider>
-          </main>
-          <Footer />
-          <Suspense>
-            <Toast />
-          </Suspense>
+          <ToastProvider>
+            <main>
+              <Header />
+              <RecipeProvider>
+                <div className="flex-1">{children}</div>
+              </RecipeProvider>
+            </main>
+            <Footer />
+            <Suspense>
+              <Toast />
+            </Suspense>
+          </ToastProvider>
         </ThemeProvider>
         <Analytics />
       </body>

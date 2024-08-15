@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "./ui/button"
 import { cookies, headers } from "next/headers"
 import { redirect } from "next/navigation"
+import LogoutButton from "./LogoutButton"
 
 const Header: React.FC = async () => {
   const heads = headers()
@@ -34,11 +35,11 @@ const Header: React.FC = async () => {
               action={async () => {
                 "use server"
                 cookies().delete("auth")
-                redirect("/?loggedOut=true")
+                redirect("/")
               }}
             >
               <div className="space-x-4">
-                <Button>Logout</Button>
+                <LogoutButton />
               </div>
             </form>
           </>
