@@ -9,6 +9,8 @@ import { RecipeProvider } from "@/providers/recipe-provider"
 import { ToastProvider } from "@/providers/toast-provider"
 import NextTopLoader from "nextjs-toploader"
 import { Analytics } from "@vercel/analytics/react"
+import { GoogleAnalytics } from "@next/third-parties/google"
+const gaId = process.env.NEXT_PUBLIC_MEASUREMENT_ID!
 
 export const metadata: Metadata = {
   title: {
@@ -78,6 +80,7 @@ const RootLayout: React.FC<RootLayoutProps> = async ({ children }) => {
         </ThemeProvider>
         <Analytics />
       </body>
+      <GoogleAnalytics gaId={gaId} />
     </html>
   )
 }
