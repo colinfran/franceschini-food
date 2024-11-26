@@ -12,61 +12,55 @@ const Toast: FC = () => {
   const { setCurrentToast, currentToast } = useToaster()
 
   useEffect(() => {
-    if (pathname === "/") {
+    if (currentToast && pathname === "/") {
+      let message = {}
       switch (currentToast) {
         case "loggedIn": {
-          toast({
+          message = {
             title: "Logged In",
             description: "You were successfully logged in.",
             duration: 3000,
-          })
-          router.refresh()
-          setCurrentToast(undefined)
+          }
           break
         }
         case "loggedOut": {
-          toast({
+          message = {
             title: "Logged Out",
             description: "You were successfully logged out.",
             duration: 3000,
-          })
-          setCurrentToast(undefined)
+          }
           break
         }
         case "addedRecipe": {
-          toast({
+          message = {
             title: "Recipe added",
             description: "You have successfully added a recipe to the database.",
             duration: 3000,
-          })
-          router.refresh()
-          setCurrentToast(undefined)
+          }
           break
         }
         case "deletedRecipe": {
-          toast({
+          message = {
             title: "Recipe deleted",
             description: "You have successfully deleted a recipe from the database.",
             duration: 3000,
-          })
-          router.refresh()
-          setCurrentToast(undefined)
+          }
           break
         }
         case "editedRecipe": {
-          toast({
+          message = {
             title: "Recipe edited",
             description: "You have successfully edited a recipe from the database.",
             duration: 3000,
-          })
-          router.refresh()
-          setCurrentToast(undefined)
+          }
           break
         }
-        default: {
+        default:
           break
-        }
       }
+      toast(message)
+      router.refresh()
+      setCurrentToast(undefined)
     }
   }, [currentToast, pathname])
 
