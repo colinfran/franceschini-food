@@ -12,7 +12,7 @@ const Toast: FC = () => {
   const { setCurrentToast, currentToast } = useToaster()
 
   useEffect(() => {
-    if (pathname === "/"){
+    if (pathname === "/") {
       switch (currentToast) {
         case "loggedIn": {
           toast({
@@ -22,7 +22,7 @@ const Toast: FC = () => {
           })
           router.refresh()
           setCurrentToast(undefined)
-          break;
+          break
         }
         case "loggedOut": {
           toast({
@@ -31,7 +31,7 @@ const Toast: FC = () => {
             duration: 3000,
           })
           setCurrentToast(undefined)
-          break;
+          break
         }
         case "addedRecipe": {
           toast({
@@ -41,7 +41,7 @@ const Toast: FC = () => {
           })
           router.refresh()
           setCurrentToast(undefined)
-          break;
+          break
         }
         case "deletedRecipe": {
           toast({
@@ -51,7 +51,7 @@ const Toast: FC = () => {
           })
           router.refresh()
           setCurrentToast(undefined)
-          break;
+          break
         }
         case "editedRecipe": {
           toast({
@@ -61,10 +61,10 @@ const Toast: FC = () => {
           })
           router.refresh()
           setCurrentToast(undefined)
-          break;
+          break
         }
         default: {
-          break;
+          break
         }
       }
     }
