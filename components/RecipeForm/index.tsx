@@ -21,12 +21,7 @@ type Props = {
   fetchUrl: string
 }
 
-const RecipeForm: FC<Props> = ({
-  currentRecipe,
-  pageTitle,
-  pageDescription,
-  fetchUrl,
-}) => {
+const RecipeForm: FC<Props> = ({ currentRecipe, pageTitle, pageDescription, fetchUrl }) => {
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
   const { setCurrentRecipe } = useRecipe()
