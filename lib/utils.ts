@@ -18,7 +18,7 @@ export const cn = (...inputs: ClassValue[]): string => {
  * @returns {string} The unique ID generated for the recipe.
  */
 export const buildId = (str: string, num: number): string => {
-  const lowercaseStr = str.toLowerCase().replace(/\s+/g, "-").replace(/'/g, "")
+  const lowercaseStr = str.toLowerCase().replace(/\s+/g, "-").replace(/[^a-zA-Z0-9-_.~]/g, '')
   if (num === 0) return lowercaseStr
   const result = lowercaseStr + `-${num}`
   return result
