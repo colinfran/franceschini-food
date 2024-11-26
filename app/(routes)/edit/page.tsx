@@ -8,7 +8,6 @@ const PageContent: FC = () => {
   const pageTitle = "Edit Recipe"
   const pageDescription = "Fill out the form below to edit the recipe."
   const fetchUrl = "/api/recipes/update"
-  const successRoute = "/?edited=true"
   const { currentRecipe } = useRecipe()
   return (
     <RecipeForm
@@ -16,7 +15,6 @@ const PageContent: FC = () => {
       fetchUrl={fetchUrl}
       pageDescription={pageDescription}
       pageTitle={pageTitle}
-      successRoute={successRoute}
     />
   )
 }

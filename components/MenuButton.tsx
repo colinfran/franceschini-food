@@ -24,6 +24,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Recipe } from "@/types"
 import { useRecipe } from "../providers/recipe-provider"
+import { useToaster } from "@/providers/toast-provider"
 
 type Props = { recipe: Recipe }
 
@@ -33,6 +34,7 @@ const MenuButton: FC<Props> = ({ recipe }) => {
   const [loading, setLoading] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
   const { setCurrentRecipe } = useRecipe()
+  const { setCurrentToast } = useToaster()
 
   useEffect(() => {
     if (recipe) {
@@ -56,8 +58,9 @@ const MenuButton: FC<Props> = ({ recipe }) => {
       }
       const responseData = await response.json()
       if (responseData.success) {
-        router.push("/?deleted=true")
+        router.push("/")
         setDialogOpen(false)
+        setCurrentToast("deletedRecipe")
       }
     } catch (error) {
       console.error("Error fetching data:", error)

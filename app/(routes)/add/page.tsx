@@ -7,14 +7,12 @@ const Page: FC = () => {
   const pageTitle = "Add Recipe"
   const pageDescription = "Fill out the form below to add a new recipe to your collection."
   const fetchUrl = "/api/recipes/add"
-  const successRoute = "/?added=true"
   return (
     <RecipeForm
       currentRecipe={defaultRecipe}
       fetchUrl={fetchUrl}
       pageDescription={pageDescription}
       pageTitle={pageTitle}
-      successRoute={successRoute}
     />
   )
 }

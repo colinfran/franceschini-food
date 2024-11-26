@@ -12,13 +12,13 @@ import ImageUpload from "./ImageUpload"
 import Title from "./Title"
 import Description from "./Description"
 import ServingsCookTime from "./ServingsCookTime"
+import { useToaster } from "@/providers/toast-provider"
 
 type Props = {
   currentRecipe: Recipe
   pageTitle: string
   pageDescription: string
   fetchUrl: string
-  successRoute: string
 }
 
 const RecipeForm: FC<Props> = ({
@@ -26,11 +26,11 @@ const RecipeForm: FC<Props> = ({
   pageTitle,
   pageDescription,
   fetchUrl,
-  successRoute,
 }) => {
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
   const { setCurrentRecipe } = useRecipe()
+  const { setCurrentToast } = useToaster()
 
   useEffect(() => {
     if (pageTitle === "Edit Recipe" && currentRecipe._id === "") {
@@ -68,7 +68,8 @@ const RecipeForm: FC<Props> = ({
       if (responseData.success) {
         setLoading(false)
         setCurrentRecipe(undefined)
-        router.push(successRoute)
+        router.push("/")
+        setCurrentToast(pageTitle === "Edit Recipe" ? "editedRecipe" : "addedRecipe")
       }
     } catch (error) {
       console.error("Error fetching data:", error)
