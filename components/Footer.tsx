@@ -34,7 +34,14 @@ export const Footer: FC = () => {
         </button>
         <span className="flex h-auto items-center text-xs">|</span>
         <Button className="h-auto text-xs" variant="link" asChild>
-          <Link href="/random" prefetch={false} onClick={(e) => { e.preventDefault(); window.location.href = '/random'; }}>
+          <Link
+            href="/random"
+            prefetch={false}
+            onClick={(e) => {
+              e.preventDefault()
+              window.location.href = "/random"
+            }}
+          >
             random recipe
           </Link>
         </Button>
