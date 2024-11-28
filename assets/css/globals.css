@@ -133,7 +133,11 @@ nav, footer{
 	filter: invert(0);
 }
 
-.scrollbar-custom {
+.categories-scrollbar {
+	gap: 4px;
+	padding-bottom: 16px;
+	display: flex;
+	flex-direction: row;
 	scrollbar-color: #666 #999;
   scrollbar-width: thin;
   scrollbar-track-color: #f0f0f0;
