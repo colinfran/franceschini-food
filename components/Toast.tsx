@@ -62,7 +62,16 @@ const Toast: FC = () => {
       router.refresh()
       setCurrentToast(undefined)
     }
-  }, [currentToast, pathname])
+    if (currentToast === "editedRecipe" && pathname.includes("/recipe/")) {
+      const message = {
+        title: "Recipe edited",
+        description: "You have successfully edited a recipe from the database.",
+        duration: 3000,
+      }
+      toast(message)
+      setCurrentToast(undefined)
+    }
+  }, [currentToast, pathname, router])
 
   return <Toaster />
 }

@@ -1,5 +1,5 @@
 "use client"
-import React, { FC, Suspense, useEffect, useState } from "react"
+import React, { FC, Suspense, useEffect, useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { LoadingSpinner } from "@/components/LoadingSpinner"
 import { useRouter } from "next/navigation"
@@ -13,6 +13,7 @@ import Title from "./Title"
 import Description from "./Description"
 import ServingsCookTime from "./ServingsCookTime"
 import { useToaster } from "@/providers/toast-provider"
+import equal from "fast-deep-equal"
 
 type Props = {
   currentRecipe: Recipe
@@ -24,7 +25,7 @@ type Props = {
 const RecipeForm: FC<Props> = ({ currentRecipe, pageTitle, pageDescription, fetchUrl }) => {
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
-  const { setCurrentRecipe } = useRecipe()
+  const { setCurrentRecipe, currentRecipe: _currentRecipe } = useRecipe()
   const { setCurrentToast } = useToaster()
 
   useEffect(() => {
@@ -61,13 +62,19 @@ const RecipeForm: FC<Props> = ({ currentRecipe, pageTitle, pageDescription, fetc
       }
       const responseData = await response.json()
       if (responseData.success) {
-        setLoading(false)
-        setCurrentRecipe(undefined)
-        router.push("/")
-        setCurrentToast(pageTitle === "Edit Recipe" ? "editedRecipe" : "addedRecipe")
+        if (pageTitle === "Edit Recipe") {
+          router.replace(`/recipe/${currentRecipe.id}`)
+          router.refresh()
+          setCurrentToast("editedRecipe")
+        } else {
+          setCurrentRecipe(undefined)
+          router.push("/")
+          setCurrentToast("addedRecipe")
+        }
       }
     } catch (error) {
       console.error("Error fetching data:", error)
+      setLoading(false)
     }
   }
 
@@ -78,6 +85,16 @@ const RecipeForm: FC<Props> = ({ currentRecipe, pageTitle, pageDescription, fetc
       [name]: value,
     }))
   }
+
+  const isEditSubmitDisabled = useMemo(() => {
+    if (pageTitle === "Edit Recipe") {
+      if (equal(recipeData, _currentRecipe)) {
+        return true
+      }
+      return false
+    }
+    return false
+  }, [recipeData, _currentRecipe, pageTitle])
 
   return (
     <Suspense>
@@ -110,6 +127,7 @@ const RecipeForm: FC<Props> = ({ currentRecipe, pageTitle, pageDescription, fetc
                 className="w-full"
                 disabled={
                   loading ||
+                  isEditSubmitDisabled ||
                   !(
                     recipeData.title.length > 1 &&
                     recipeData.description.length > 1 &&

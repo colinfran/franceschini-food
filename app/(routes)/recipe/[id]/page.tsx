@@ -5,9 +5,10 @@ import { v4 } from "uuid"
 import { Ingredient, Instruction } from "@/types"
 import { cookies } from "next/headers"
 import MenuButton from "@/components/MenuButton"
-import { urlify } from "@/lib/utils"
+import { extractTextAndUrls } from "@/lib/utils"
 import Image from "next/image"
 import { redirect } from "next/navigation"
+import Link from "next/link"
 
 type Props = { params: { id: string } }
 
@@ -28,6 +29,8 @@ const Page: React.FC<Props> = async ({ params }) => {
     image,
   } = recipe
 
+  const parsedDescription = extractTextAndUrls(description)
+
   return (
     <section className="w-full py-12" style={{ overflowWrap: "anywhere" }}>
       <div className="container relative mx-auto grid gap-8 px-4 md:px-6">
@@ -36,10 +39,26 @@ const Page: React.FC<Props> = async ({ params }) => {
             <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
             {authCookie && <MenuButton recipe={JSON.parse(JSON.stringify(recipe))} />}
           </div>
-          <h2
-            className="text-lg tracking-tight"
-            dangerouslySetInnerHTML={{ __html: urlify(description) }}
-          />
+          <h2 className="text-lg tracking-tight">
+            {parsedDescription.data.map((item, index) => {
+              if (item.url) {
+                // Render a clickable link for URLs
+                return (
+                  <Link
+                    className="mr-1.5 underline"
+                    href={item.url}
+                    key={index}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    {item.url}
+                  </Link>
+                )
+              } else {
+                return <span key={index}>{`${item.text} `}</span>
+              }
+            })}
+          </h2>
           <p className="text-gray-500 dark:text-gray-400">{`Cooking Time: ${cookingTime}`}</p>
           <p className="text-gray-500 dark:text-gray-400">{`Servings: ${servings}`}</p>
           <p className="text-gray-500 dark:text-gray-400">{`Categories: ${categories.join(", ")}`}</p>

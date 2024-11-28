@@ -113,3 +113,47 @@ export const urlify = (text: string): string => {
     return `<a style='color: rgb(161 161 170); text-decoration:underline;' href='${url2}' target='_blank'>${url}</a>`
   })
 }
+
+type TextAndUrlProps = {
+  text?: string
+  url?: string
+}
+
+type ExtractTextAndUrlsProps = {
+  data: TextAndUrlProps[]
+}
+
+export const extractTextAndUrls = (input: string): ExtractTextAndUrlsProps => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g // Regex to match URLs
+  const result = []
+  let lastIndex = 0
+
+  // Use the regex to match URLs in the string
+  const matches = [...input.matchAll(urlRegex)]
+
+  if (matches.length > 0) {
+    matches.forEach((match) => {
+      const url = match[0]
+      const index = match.index
+
+      if (index > lastIndex) {
+        // Add the text before the URL
+        result.push({ text: input.substring(lastIndex, index).trim() })
+      }
+
+      // Add the URL
+      result.push({ url: url })
+      lastIndex = index + url.length
+    })
+
+    // Add any remaining text after the last URL
+    if (lastIndex < input.length) {
+      result.push({ text: input.substring(lastIndex).trim() })
+    }
+  } else {
+    // If no URLs are found, return the input as a single text entry
+    result.push({ text: input })
+  }
+
+  return { data: result }
+}
