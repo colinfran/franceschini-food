@@ -2,6 +2,7 @@ import React, { FC } from "react"
 import { Badge } from "../ui/badge"
 import { listOfCategories } from "@/lib/utils"
 import { Recipe } from "@/types"
+import { ScrollArea, ScrollBar } from "../ui/scroll-area"
 
 type Props = {
   recipeData: Recipe
@@ -28,10 +29,10 @@ const Categories: FC<Props> = ({ recipeData, setRecipeData }) => {
         Categories
       </label>
       <div className="mt-1">
-        <div className="categories-scrollbar">
+        <ScrollArea type="always" className="whitespace-nowrap [&>div]:pb-4">
           {listOfCategories.map((cat, index) => (
             <Badge
-              className="text-center text-xxs"
+              className="text-center text-xxs mx-1"
               key={index}
               style={{
                 backgroundColor: recipeData.categories.includes(cat) ? "gray" : "white",
@@ -43,7 +44,8 @@ const Categories: FC<Props> = ({ recipeData, setRecipeData }) => {
               {cat}
             </Badge>
           ))}
-        </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
         <div className="my-0 text-xs">Selected Categories: {recipeData.categories.join(", ")}</div>
       </div>
     </div>
