@@ -28,7 +28,7 @@ const Categories: FC<Props> = ({ recipeData, setRecipeData }) => {
         Categories
       </label>
       <div className="mt-1">
-        <div className="scrollbar-custom flex flex-row gap-1 overflow-x-auto pb-4 overflow-y-hidden">
+        <div className="scrollbar-custom flex flex-row gap-1 overflow-x-auto overflow-y-hidden pb-4">
           {listOfCategories.map((cat, index) => (
             <Badge
               className="text-center text-xxs"
