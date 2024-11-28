@@ -29,10 +29,10 @@ const Categories: FC<Props> = ({ recipeData, setRecipeData }) => {
         Categories
       </label>
       <div className="mt-1">
-        <ScrollArea type="always" className="whitespace-nowrap [&>div]:pb-4">
+        <ScrollArea className="whitespace-nowrap [&>div]:pb-4" type="always">
           {listOfCategories.map((cat, index) => (
             <Badge
-              className="text-center text-xxs mx-1"
+              className="mx-1 text-center text-xxs"
               key={index}
               style={{
                 backgroundColor: recipeData.categories.includes(cat) ? "gray" : "white",
