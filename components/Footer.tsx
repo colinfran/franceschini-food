@@ -52,7 +52,11 @@ export const Footer: FC = () => {
             <div className="grid gap-4 py-4">
               <div className="text-center">
                 <span>Created by </span>
-                <Link className="underline" href="https://colinfran.com?utm_source=https%3A%2F%2Ffranceschini.food&utm_medium=referral" target="_blank">
+                <Link
+                  className="underline"
+                  href="https://colinfran.com?utm_source=https%3A%2F%2Ffranceschini.food&utm_medium=referral"
+                  target="_blank"
+                >
                   Colin Franceschini
                 </Link>
               </div>
