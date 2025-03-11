@@ -1,4 +1,4 @@
-import { getRecipes } from "@/db/getRecipes"
+import { getRandomRecipe } from "@/db/getRandomRecipe"
 import { NextRequest, NextResponse } from "next/server"
 
 /**
@@ -8,9 +8,8 @@ import { NextRequest, NextResponse } from "next/server"
  */
 
 export const GET = async (request: NextRequest): Promise<NextResponse> => {
-  const { recipes } = await getRecipes()
-  const randomIndex = Math.floor(Math.random() * recipes.length)
-  const recipeId = recipes[randomIndex].id
+  const { recipe } = await getRandomRecipe()
+  const recipeId = recipe.id
   const url = new URL(`/recipe/${recipeId}`, request.url)
   return NextResponse.redirect(url, { status: 307 })
 }
