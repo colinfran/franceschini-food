@@ -18,7 +18,10 @@ const THIRTY_DAYS_IN_SECONDS = 60 * 60 * 24 * 30
 const safeEqual = (a: string, b: string): boolean => {
   const hashA = createHash("sha256").update(a).digest()
   const hashB = createHash("sha256").update(b).digest()
-  return timingSafeEqual(hashA, hashB)
+  return timingSafeEqual(
+    new Uint8Array(hashA) as Uint8Array<ArrayBuffer>,
+    new Uint8Array(hashB) as Uint8Array<ArrayBuffer>,
+  )
 }
 
 /**
