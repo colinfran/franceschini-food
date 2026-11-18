@@ -10,7 +10,12 @@ import { ToastProvider } from "@/providers/toast-provider"
 import NextTopLoader from "nextjs-toploader"
 import { Analytics } from "@vercel/analytics/react"
 import { GoogleAnalytics } from "@next/third-parties/google"
+import { BotIdClient } from "botid/client"
 const gaId = process.env.NEXT_PUBLIC_MEASUREMENT_ID!
+
+// Requests BotID attaches its headers to. Each route here must call rejectBots()
+// from lib/auth.ts, and every route that calls it must be listed here.
+const botIdProtectedRoutes = [{ path: "/api/login", method: "POST" }]
 
 export const metadata: Metadata = {
   title: {
@@ -57,6 +62,9 @@ type RootLayoutProps = {
 const RootLayout: React.FC<RootLayoutProps> = async ({ children }) => {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <BotIdClient protect={botIdProtectedRoutes} />
+      </head>
       <body className="relative flex min-h-screen flex-col">
         <NextTopLoader color="#36568a" showSpinner={false} zIndex={100} />
         <ThemeProvider

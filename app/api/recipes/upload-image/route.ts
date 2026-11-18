@@ -1,9 +1,11 @@
+import { isAuthenticated, unauthorizedResponse } from "@/lib/auth"
 import { NextResponse } from "next/server"
 import { v4 } from "uuid"
 const key = process.env.IMGBB_KEY!
 
 /**
- * Handles the POST request to upload an image for a recipe
+ * Handles the POST request to upload an image for a recipe. Requires a logged-in user,
+ * otherwise anyone could use this as free image hosting on our imgbb key.
  * @route POST /api/recipes/upload-image
  * @param {Request} request - The incoming HTTP request object.
  * @returns {Promise<NextResponse>} A promise that resolves to Next.js response containing
@@ -11,6 +13,8 @@ const key = process.env.IMGBB_KEY!
  */
 
 export const POST = async (request: Request): Promise<NextResponse> => {
+  if (!(await isAuthenticated())) return unauthorizedResponse()
+
   const name = v4().replaceAll("-", "")
   try {
     const response = await fetch(`https://api.imgbb.com/1/upload?key=${key}&name=${name}`, {

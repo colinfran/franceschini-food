@@ -41,3 +41,17 @@ export const middleware = async (request: NextRequest): Promise<NextResponse> =>
   }
   return NextResponse.next();
 }
+
+// Without a matcher, middleware ran on every request (JS/CSS chunks, images,
+// bot probes), and each run is a billed Edge Middleware invocation. Limit it to
+// pages that render auth-dependent UI. API routes check the token themselves
+// (lib/auth.ts), so they don't need middleware.
+export const config = {
+  matcher: [
+    '/',
+    '/login/:path*',
+    '/add/:path*',
+    '/edit/:path*',
+    '/recipe/:path*',
+  ],
+};
