@@ -18,10 +18,9 @@ const THIRTY_DAYS_IN_SECONDS = 60 * 60 * 24 * 30
 const safeEqual = (a: string, b: string): boolean => {
   const hashA = createHash("sha256").update(a).digest()
   const hashB = createHash("sha256").update(b).digest()
-  return timingSafeEqual(
-    new Uint8Array(hashA) as Uint8Array<ArrayBuffer>,
-    new Uint8Array(hashB) as Uint8Array<ArrayBuffer>,
-  )
+  // Copy into plain Uint8Arrays: this type-checks with both older TS (non-generic
+  // Uint8Array, used by the build) and TS 5.7+ (where passing a Buffer here errors).
+  return timingSafeEqual(new Uint8Array(hashA), new Uint8Array(hashB))
 }
 
 /**
